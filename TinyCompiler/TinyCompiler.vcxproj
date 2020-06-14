@@ -19,20 +19,20 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Lib\Automaton.h" />
-    <ClInclude Include="Lib\DFA.h" />
-    <ClInclude Include="Lib\GrammarFileReader.h" />
-    <ClInclude Include="Lib\LexFileLoader.h" />
-    <ClInclude Include="Lib\LexMatcher.h" />
-    <ClInclude Include="Lib\LL1Analyzer.h" />
-    <ClInclude Include="Lib\LL1Preprocess.h" />
-    <ClInclude Include="Lib\LRAnalyzer.h" />
-    <ClInclude Include="Lib\LRAutos.h" />
-    <ClInclude Include="Lib\RegExpParser.h" />
-    <ClInclude Include="Lib\Vlpp.h" />
+    <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Lib\Vlpp.cpp" />
+    <ClInclude Include="Automaton.h" />
+    <ClInclude Include="DFA.h" />
+    <ClInclude Include="GrammarFileReader.h" />
+    <ClInclude Include="LexFileLoader.h" />
+    <ClInclude Include="LexMatcher.h" />
+    <ClInclude Include="LL1Analyzer.h" />
+    <ClInclude Include="LL1Preprocess.h" />
+    <ClInclude Include="LRAnalyzer.h" />
+    <ClInclude Include="LRAutos.h" />
+    <ClInclude Include="RegExpParser.h" />
+    <ClInclude Include="Vlpp.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

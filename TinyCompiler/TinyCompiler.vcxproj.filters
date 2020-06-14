@@ -15,43 +15,43 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Lib\Automaton.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="Lib\DFA.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="Lib\GrammarFileReader.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="Lib\LexFileLoader.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="Lib\LexMatcher.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="Lib\LL1Analyzer.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="Lib\LL1Preprocess.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="Lib\LRAnalyzer.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="Lib\LRAutos.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="Lib\RegExpParser.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="Lib\Vlpp.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
+    <ClCompile Include="main.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Lib\Vlpp.cpp">
+    <ClInclude Include="Automaton.h">
       <Filter>头文件</Filter>
-    </ClCompile>
+    </ClInclude>
+    <ClInclude Include="DFA.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="GrammarFileReader.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="LexFileLoader.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="LexMatcher.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="LL1Analyzer.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="LL1Preprocess.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="LRAnalyzer.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="LRAutos.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="RegExpParser.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Vlpp.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
