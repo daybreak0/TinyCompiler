@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30128.74
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TinyCompiler", "TinyCompiler\TinyCompiler.vcxproj", "{AF688FEB-2A6A-4CC0-8724-A6A3BEDE8CD2}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{AF688FEB-2A6A-4CC0-8724-A6A3BEDE8CD2}.Debug|x64.ActiveCfg = Debug|x64
+		{AF688FEB-2A6A-4CC0-8724-A6A3BEDE8CD2}.Debug|x64.Build.0 = Debug|x64
+		{AF688FEB-2A6A-4CC0-8724-A6A3BEDE8CD2}.Debug|x86.ActiveCfg = Debug|Win32
+		{AF688FEB-2A6A-4CC0-8724-A6A3BEDE8CD2}.Debug|x86.Build.0 = Debug|Win32
+		{AF688FEB-2A6A-4CC0-8724-A6A3BEDE8CD2}.Release|x64.ActiveCfg = Release|x64
+		{AF688FEB-2A6A-4CC0-8724-A6A3BEDE8CD2}.Release|x64.Build.0 = Release|x64
+		{AF688FEB-2A6A-4CC0-8724-A6A3BEDE8CD2}.Release|x86.ActiveCfg = Release|Win32
+		{AF688FEB-2A6A-4CC0-8724-A6A3BEDE8CD2}.Release|x86.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {BC8A6626-C6E3-40BC-B5AE-A9EC79C7CD3E}
+	EndGlobalSection
+EndGlobal
