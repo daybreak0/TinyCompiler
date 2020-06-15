@@ -14,8 +14,59 @@ namespace {
 	}
 }
 namespace hscp {
+	// abstract syntax tree node
+	struct ASTNode
+	{
+		Token token;
+		std::vector<ASTNode*> children;
+
+		~ASTNode()
+		{
+			for (auto& c : children) {
+				delete c;
+				c = nullptr;
+			}
+		}
+	};
+	// abstract syntax tree
+	struct AST
+	{
+		ASTNode* root;
+
+		~AST()
+		{
+			delete root;
+			root = nullptr;
+		}
+	};
+	// abstract syntax tree node
+	struct AnalyzeTreeNode
+	{
+		Token token;
+		std::string symbol;
+		std::list<AnalyzeTreeNode*> children;
+
+		~AnalyzeTreeNode()
+		{
+			for (auto& c : children) {
+				delete c;
+				c = nullptr;
+			}
+		}
+	};
+	// abstract syntax tree
+	struct AnalyzeTree
+	{
+		AnalyzeTreeNode* root;
+
+		~AnalyzeTree()
+		{
+			delete root;
+			root = nullptr;
+		}
+	};
 	// Analyzer support for all LR method
-	template<typename TAuto, typename TState>
+	template<typename TState>
 	class Analyzer {
 	private:
 		const std::map<TState*, std::map<std::string, LROperation<TState>>>& table;
@@ -64,9 +115,10 @@ namespace hscp {
 				}
 			}
 		}*/
-		Analyzer(const TAuto& at, const std::map<TState*, std::map<std::string, LROperation<TState>>>& table, const std::vector<Token>& tokenstream) :table(table), productions(at.productions), tokenstream(tokenstream) {
+		Analyzer(const LR1Automaton& at, const std::map<TState*, std::map<std::string, LROperation<TState>>>& table, const std::vector<Token>& tokenstream) :table(table), productions(at.productions), tokenstream(tokenstream) {
 			std::deque<Token> symbol;
 			std::deque<TState*> state;
+			std::deque<AnalyzeTreeNode*> syntax;
 
 			state.push_back(at.states[0].Obj());
 
@@ -85,6 +137,7 @@ namespace hscp {
 				case LROperation<TState>::S:
 					state.push_back(table.at(state.back()).at('^' + i->is).sid);
 					symbol.push_back(*i);
+					//syntax.push_back({*i, })
 					++i;
 					PrintStack(symbol);
 					break;
