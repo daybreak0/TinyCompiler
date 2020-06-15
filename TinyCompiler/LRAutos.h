@@ -10,7 +10,7 @@
 
 #include"GrammarFileReader.h"
 #include"LL1Preprocess.h"
-#include"Vlpp.h" // include files over projects
+#include"C:\Users\Miracle\Source\Repos\CompilePrinciple\Automaton\Vlpp.h" // include files over projects
 
 namespace hscp {
 	struct LRState;
@@ -45,7 +45,7 @@ namespace hscp {
 		LRState* from, * to;
 	};
 	class LR0Automaton {
-		template<typename TAuto, typename TState>
+		template<typename TState>
 		friend class Analyzer;
 	private:
 		std::vector<vl::Ptr<LRState>> states;
@@ -182,11 +182,8 @@ namespace hscp {
 
 		}
 
-		std::map<std::string, std::set<std::string>> first;
-		std::map<std::string, std::set<std::string>> follow;
 		LR0Automaton(GrammarLoader& ld) :grammarloader(ld) {
-			first = GetFirst(grammarloader);
-			follow = GetFollow(grammarloader, first);
+
 		}
 	public:
 		static LR0Automaton Build(hscp::GrammarLoader& ld) {
@@ -209,31 +206,6 @@ namespace hscp {
 			at.moveNexts(nstate);
 
 			return std::move(at);
-		}
-
-		bool IsLR0() {
-			for (const auto& s : states) {
-				if (s->projects.size() > 1
-					&& std::find_if(s->projects.begin(), s->projects.end(), [](auto e) {return e.second.last() == "."; }) != s->projects.end())
-					return false;
-			}
-			return true;
-		}
-
-		bool IsSLR1() {
-			std::set<std::string> inter;
-			for (auto iit = follow.begin(); iit != follow.end(); ++iit) {
-				auto t = iit;
-				++t;
-				for (auto jit = t; jit != follow.end(); ++jit) {
-					std::set_intersection(iit->second.begin(), iit->second.end(), jit->second.begin(), jit->second.end(), inter.begin());
-
-					if (inter.size() > 0)
-						return false;
-				}
-			}
-
-			return true;
 		}
 
 		std::map<LRState*, std::map<std::string, LROperation<LRState>>> LR0Table() {
@@ -277,8 +249,8 @@ namespace hscp {
 		}
 
 		std::map<LRState*, std::map<std::string, LROperation<LRState>>> SLR1Table() {
-			//auto first = GetFirst(grammarloader);
-			//auto follow = GetFollow(grammarloader, first);
+			auto first = GetFirst(grammarloader);
+			auto follow = GetFollow(grammarloader, first);
 			std::map<LRState*, std::map<std::string, LROperation<LRState>>> table;
 
 			for (const auto& s : states) {
@@ -338,7 +310,7 @@ namespace hscp {
 		LR1State* from, * to;
 	};
 	class LR1Automaton {
-		template<typename TAuto, typename TState>
+		template<typename TState>
 		friend class Analyzer;
 	private:
 		std::vector<vl::Ptr<LR1State>> states;
@@ -517,10 +489,6 @@ namespace hscp {
 			return std::move(at);
 		}
 
-		/*bool IsLALR1() {
-			for()
-		}*/
-
 		void MergeLALR1() {
 			for (auto& s : states) {
 				std::set<std::pair<std::pair<std::string, std::list<std::string>>, std::set<std::string>>> ts;
@@ -601,13 +569,12 @@ namespace hscp {
 						}
 					}
 				}
-				
+
 			}
 			for (auto& r : removeit) {
 				states.erase(r);
 			}*/
 		}
-
 		std::map<LR1State*, std::map<std::string, LROperation<LR1State>>> LR1Table() {
 			std::map<LR1State*, std::map<std::string, LROperation<LR1State>>> table;
 
