@@ -371,7 +371,7 @@ namespace hscp {
 
 					for (const auto& f : seqfirst) {
 						auto insed = closeset.insert(std::make_pair(np, std::set<std::string>({ f })));
-						if (s != *it)
+						if (s != *it || *prod.second.begin() != *seqfirst.begin())
 						{
 							auto nc = ProdClosure(*(insed.first));
 							std::copy(nc.begin(), nc.end(), std::inserter(closeset, closeset.begin()));
