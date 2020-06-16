@@ -13,6 +13,9 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="外部数据">
+      <UniqueIdentifier>{478b2fef-6bfa-424a-b9ee-68e074ac84bd}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -53,5 +56,16 @@
     <ClInclude Include="Vlpp.h">
       <Filter>头文件</Filter>
     </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="Data\grammar.txt">
+      <Filter>外部数据</Filter>
+    </Text>
+    <Text Include="Data\lex-define.txt">
+      <Filter>外部数据</Filter>
+    </Text>
+    <Text Include="Data\source.txt">
+      <Filter>外部数据</Filter>
+    </Text>
   </ItemGroup>
 </Project>

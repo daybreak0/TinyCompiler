@@ -34,6 +34,11 @@
     <ClInclude Include="RegExpParser.h" />
     <ClInclude Include="Vlpp.h" />
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="Data\grammar.txt" />
+    <Text Include="Data\lex-define.txt" />
+    <Text Include="Data\source.txt" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>

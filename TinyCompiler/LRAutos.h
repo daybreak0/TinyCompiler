@@ -344,30 +344,32 @@ namespace hscp {
 			return t;
 		}
 		// <A->PQR...,{s}>
+		// recursively get closure of a project in state
 		std::set<std::pair<std::pair<std::string, std::list<std::string>>, std::set<std::string>>> ProdClosure(
 			const std::pair<std::pair<std::string, std::list<std::string>>, std::set<std::string>>& prod
 		) {
 			std::set<std::pair<std::pair<std::string, std::list<std::string>>, std::set<std::string>>> closeset;
-			auto it = std::find(prod.first.second.begin(), prod.first.second.end(), ".");
+			auto it = std::find(prod.first.second.begin(), prod.first.second.end(), "."); // find "."
 			if (it == prod.first.second.end()) {
 				throw "error production";
 			}
-			it++;
-			if (it == prod.first.second.end() || (*it)[0] == '^') {
+			it++; // move to symbol after "."
+			if (it == prod.first.second.end() || (*it)[0] == '^') { // no need for reduce proj or followed by terminal
 				return {};
 			}
 			else {
-				auto bg = std::find_if(productions.begin(), productions.end(), [it](auto e) {return e.first == *it; });
+				// find productions for one nonterminal
+				auto bg = std::find_if(productions.begin(), productions.end(), [it](auto e) {return e.first == *it; }); 
 				while (bg != productions.end() && bg->first == *it) {
-					auto np = *bg;
-					auto s = np.second.front();
-					np.second.push_front(".");
+					auto np = *bg; // copy production
+					auto s = np.second.front(); // symbol to close
+					np.second.push_front("."); // start this production
 
 					auto seq = prod.first.second;
 					seq.push_back(*prod.second.begin());
 					auto seqbegin = std::find(seq.begin(), seq.end(), ".");
 					seqbegin++; seqbegin++;
-					auto seqfirst = getFirst(seqbegin, seq.end(), firstset);
+					auto seqfirst = getFirst(seqbegin, seq.end(), firstset); // get look ahead set for a closure production
 
 					for (const auto& f : seqfirst) {
 						auto insed = closeset.insert(std::make_pair(np, std::set<std::string>({ f })));

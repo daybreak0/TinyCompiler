@@ -1,0 +1,34 @@
+[reserve]
+if if
+else else
+true true
+false false
+while while
+do do
+for for
+switch switch
+case case
+break break
+continue continue
+return return
+var var
+const const
+function function
+int int
+double double
+float float
+long long
+char char
+byte byte
+unsigned unsigned
+number number
+string string
+[sign]
+a a
+b b
+c c
+d d
+e e
+[structure]
+comment /\*[_a-zA-Z0-9\- \t\n]*\*/
+linecomment //[^\n\r]*

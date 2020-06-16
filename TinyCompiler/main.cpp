@@ -9,7 +9,7 @@ using namespace std;
 // get an automaton
 hscp::Automaton getAutos() {
 #ifdef _DEBUG
-	constexpr auto route = "C:\\Users\\Miracle\\Source\\Repos\\CompilePrinciple\\Debug\\lex-define.txt";
+	constexpr auto route = "Data\\lex-define.txt";
 #else
 	constexpr auto route = "lex-define.txt";
 #endif
@@ -32,10 +32,10 @@ hscp::Automaton getAutos() {
 	return std::move(at);
 }
 int main(int argc, char** argv) {
-	string file = "C:\\Users\\Miracle\\Source\\Repos\\CompilePrinciple\\Debug\\source.txt";
-	if (argc == 2)
-		file = argv[1]; // source file from parameter
-	else return 0;
+	string file = "Data\\source.txt";
+	//if (argc == 2)
+	//	file = argv[1]; // source file from parameter
+	//else return 0;
 	auto at = getAutos();
 	hscp::Matcher mc(at);
 	auto tokens = mc.ReadFile(file);
@@ -51,5 +51,7 @@ int main(int argc, char** argv) {
 	//vector<hscp::Token> tokens = { {"","id","a",0,1,1},{"","+","=",0,1,2},{"","id","*",0,1,3},{"","*","id",0,1,4},{"","(","id",0,1,5},{"","id","id",0,1,6},{"",")","id",0,1,7},{"","#","#",0,1,8} };
 	hscp::Analyzer ana(lrat, t, tokens);
 	ana.PrintErrors();
+
+	auto& atree = ana.GetAnalyzeTree();
 	return 0;
 }

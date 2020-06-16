@@ -82,7 +82,7 @@ namespace hscp {
 	public:
 		GrammarLoader() {
 #ifdef _DEBUG
-			constexpr auto route = "C:\\Users\\Miracle\\Source\\Repos\\CompilePrinciple\\Debug\\grammar.txt";
+			constexpr auto route = "Data\\grammar.txt";
 #else
 			constexpr auto route = "grammar.txt";
 #endif

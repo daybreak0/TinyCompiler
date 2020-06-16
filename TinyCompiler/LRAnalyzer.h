@@ -46,12 +46,15 @@ namespace hscp {
 		std::string symbol;
 		std::list<AnalyzeTreeNode*> children;
 
-		~AnalyzeTreeNode()
-		{
+		void Destroy() {
 			for (auto& c : children) {
 				delete c;
 				c = nullptr;
 			}
+		}
+		~AnalyzeTreeNode()
+		{
+			
 		}
 	};
 	// abstract syntax tree
@@ -59,10 +62,13 @@ namespace hscp {
 	{
 		AnalyzeTreeNode* root;
 
-		~AnalyzeTree()
-		{
+		void Destroy() {
 			delete root;
 			root = nullptr;
+		}
+		~AnalyzeTree()
+		{
+			
 		}
 	};
 	// Analyzer support for all LR method
@@ -73,6 +79,7 @@ namespace hscp {
 		const std::vector<std::pair<std::string, std::list<std::string>>>& productions;
 		const std::vector<Token>& tokenstream;
 
+		AnalyzeTree tree;
 		std::vector<Token> errors;
 	public:
 		/*Analyzer(const LR0Automaton& at, const std::map<TState*, std::map<std::string, LROperation<TState>>>& table, const std::vector<Token>& tokenstream) :table(table), productions(at.productions), tokenstream(tokenstream) {
@@ -116,12 +123,12 @@ namespace hscp {
 			}
 		}*/
 		Analyzer(const LR1Automaton& at, const std::map<TState*, std::map<std::string, LROperation<TState>>>& table, const std::vector<Token>& tokenstream) :table(table), productions(at.productions), tokenstream(tokenstream) {
-			std::deque<Token> symbol;
+			std::deque<Token> symbol_stack;
 			std::deque<TState*> state;
 			std::deque<AnalyzeTreeNode*> syntax;
 
 			state.push_back(at.states[0].Obj());
-
+			AnalyzeTreeNode* snode = nullptr;
 			for (auto i = tokenstream.begin(); i != tokenstream.end();) {
 				auto it = find(state.back()->trans.begin(), state.back()->trans.end(), (void*)0);
 				int pn;
@@ -133,30 +140,37 @@ namespace hscp {
 				switch (table.at(state.back()).at('^' + i->is).OpType)
 				{
 				case LROperation<TState>::ACC:
+					tree.root = syntax.back();
 					return;
 				case LROperation<TState>::S:
 					state.push_back(table.at(state.back()).at('^' + i->is).sid);
-					symbol.push_back(*i);
-					//syntax.push_back({*i, })
+					symbol_stack.push_back(*i);
+					syntax.push_back(new AnalyzeTreeNode{ *i, i->is, {} });
 					++i;
-					PrintStack(symbol);
+					PrintStack(symbol_stack);
 					break;
 				case LROperation<TState>::R:
 					pn = table.at(state.back()).at('^' + i->is).pid;
+					snode = new AnalyzeTreeNode{ {},productions[pn].first,{} };
 					for (int n = 0; n < productions[pn].second.size(); n++) {
-						symbol.pop_back();
+						snode->children.push_front(syntax.back());
+						syntax.pop_back();
+						symbol_stack.pop_back();
 						state.pop_back();
 					}
 					it = find_if(state.back()->trans.begin(), state.back()->trans.end(), [t = productions[pn]](auto e){return e->symbol == t.first; });
 					state.push_back((*it)->to);
-					symbol.push_back({ "", productions[pn].first });
-					PrintStack(symbol);
+					symbol_stack.push_back({ "", productions[pn].first });
+					syntax.push_back(snode);
+					PrintStack(symbol_stack);
 					break;
 				case LROperation<TState>::N:
 				default:
 					break;
 				}
 			}
+
+			tree.root = syntax.back();
 		}
 		std::vector<Token>& GetErrors() {
 			return errors;
@@ -168,6 +182,10 @@ namespace hscp {
 			for (const auto& e : errors) {
 				std::cout << "Error: " << e.content << " (" << e.is << ") " << "at line: " << e.line << " ,column: " << e.column << ".\n";
 			}
+		}
+
+		AnalyzeTree& GetAnalyzeTree() {
+			return tree;
 		}
 	};
 }

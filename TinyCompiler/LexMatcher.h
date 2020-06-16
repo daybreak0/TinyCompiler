@@ -86,7 +86,7 @@ namespace hscp {
 				}
 			}
 
-
+			tokens.push_back({ "","#","#",0,-1,-1 });
 			return tokens;
 		}
 	};
