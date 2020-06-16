@@ -325,8 +325,8 @@ namespace hscp {
 		LR1State* NewState(const std::set<std::pair<std::pair<std::string, std::list<std::string>>, std::set<std::string>>>& prods) {
 			std::set<std::pair<std::pair<std::string, std::list<std::string>>, std::set<std::string>>> closed;
 			for (const auto& p : prods) {
-				auto ns = ProdClosure(p);
-				std::copy(ns.begin(), ns.end(), std::inserter(closed, closed.begin()));
+				ProdClosure(p, closed);
+				//std::copy(ns.begin(), ns.end(), std::inserter(closed, closed.begin()));
 			}
 
 			LR1State* t = new LR1State{ {}, prods, closed,{} };
@@ -345,21 +345,23 @@ namespace hscp {
 		}
 		// <A->PQR...,{s}>
 		// recursively get closure of a project in state
-		std::set<std::pair<std::pair<std::string, std::list<std::string>>, std::set<std::string>>> ProdClosure(
-			const std::pair<std::pair<std::string, std::list<std::string>>, std::set<std::string>>& prod
+		void ProdClosure(
+			const std::pair<std::pair<std::string, std::list<std::string>>, std::set<std::string>>& prod,
+			std::set<std::pair<std::pair<std::string, std::list<std::string>>, std::set<std::string>>>& cset
 		) {
-			std::set<std::pair<std::pair<std::string, std::list<std::string>>, std::set<std::string>>> closeset;
+
+			//std::set<std::pair<std::pair<std::string, std::list<std::string>>, std::set<std::string>>> closeset;
 			auto it = std::find(prod.first.second.begin(), prod.first.second.end(), "."); // find "."
 			if (it == prod.first.second.end()) {
 				throw "error production";
 			}
 			it++; // move to symbol after "."
 			if (it == prod.first.second.end() || (*it)[0] == '^') { // no need for reduce proj or followed by terminal
-				return {};
+				return;
 			}
 			else {
 				// find productions for one nonterminal
-				auto bg = std::find_if(productions.begin(), productions.end(), [it](auto e) {return e.first == *it; }); 
+				auto bg = std::find_if(productions.begin(), productions.end(), [it](auto e) {return e.first == *it; });
 				while (bg != productions.end() && bg->first == *it) {
 					auto np = *bg; // copy production
 					auto s = np.second.front(); // symbol to close
@@ -372,20 +374,20 @@ namespace hscp {
 					auto seqfirst = getFirst(seqbegin, seq.end(), firstset); // get look ahead set for a closure production
 
 					for (const auto& f : seqfirst) {
-						auto insed = closeset.insert(std::make_pair(np, std::set<std::string>({ f })));
-						if (s != *it || *prod.second.begin() != *seqfirst.begin())
+						auto size = cset.size();
+						auto insed = cset.insert(std::make_pair(np, std::set<std::string>({ f })));
+						if (size<cset.size())
 						{
-							auto nc = ProdClosure(*(insed.first));
-							std::copy(nc.begin(), nc.end(), std::inserter(closeset, closeset.begin()));
+							ProdClosure(*(insed.first), cset);
+							//std::copy(nc.begin(), nc.end(), std::inserter(closeset, closeset.begin()));
 						}
 					}
 					++bg;
-
-
+					
 				}
 			}
 
-			return std::move(closeset);
+			return;
 		}
 		std::set<std::pair<std::string, std::pair<std::pair<std::string, std::list<std::string>>, std::set<std::string>>>> getNext(LR1State* state) {
 			std::set<std::pair<std::string, std::pair<std::pair<std::string, std::list<std::string>>, std::set<std::string>>>> ns;
@@ -420,8 +422,8 @@ namespace hscp {
 					std::copy(ps.begin(), ps.end(), std::inserter(ts, ts.begin()));
 					std::set<std::pair<std::pair<std::string, std::list<std::string>>, std::set<std::string>>> closed;
 					for (const auto& p : ts) {
-						auto ns = ProdClosure(p);
-						std::copy(ns.begin(), ns.end(), std::inserter(closed, closed.begin()));
+						ProdClosure(p, closed);
+						//std::copy(ns.begin(), ns.end(), std::inserter(closed, closed.begin()));
 					}
 					auto it = std::find_if(states.begin(), states.end(), [ts, closed](auto e) { return e->start == ts && e->closure == closed; });
 					LR1State* to;
@@ -450,8 +452,8 @@ namespace hscp {
 				std::copy(ps.begin(), ps.end(), std::inserter(ts, ts.begin()));
 				std::set<std::pair<std::pair<std::string, std::list<std::string>>, std::set<std::string>>> closed;
 				for (const auto& p : ts) {
-					auto ns = ProdClosure(p);
-					std::copy(ns.begin(), ns.end(), std::inserter(closed, closed.begin()));
+					ProdClosure(p, closed);
+					//std::copy(ns.begin(), ns.end(), std::inserter(closed, closed.begin()));
 				}
 				auto it = std::find_if(states.begin(), states.end(), [ts, closed](auto e) { return e->start == ts && e->closure == closed; });
 				LR1State* to;
