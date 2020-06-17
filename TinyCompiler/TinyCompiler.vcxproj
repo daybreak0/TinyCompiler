@@ -33,10 +33,12 @@
     <ClInclude Include="LRAutos.h" />
     <ClInclude Include="RegExpParser.h" />
     <ClInclude Include="Vlpp.h" />
+    <ClInclude Include="SematicLoader.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="Data\grammar.txt" />
     <Text Include="Data\lex-define.txt" />
+    <Text Include="Data\sematic.txt" />
     <Text Include="Data\source.txt" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

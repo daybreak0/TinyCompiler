@@ -3,8 +3,8 @@ stmtsequence->stmtsequence statement | statement ^;
 statement->ifstmt | repeatstmt | assignstmt | readstmt | writestmt | returnstmt
 ifstmt->^if exp ^then stmtsequence ^end | ^if exp ^then stmtsequence ^else stmtsequence ^end
 repeatstmt->^repeat stmtsequence ^until exp
-assignstmt->^identifier ^:= exp
-readstmt->^read ^identifier
+assignstmt->id ^:= exp
+readstmt->^read id
 writestmt->^write exp
 returnstmt->^return factor ^;
 exp->simpleexp | simpleexp comparisonop simpleexp
@@ -15,4 +15,5 @@ simpleexp->term
 addop->^+ | ^-
 term->term mulop factor | factor
 mulop->^* | ^/
-factor->^( exp ^) | ^numberval | ^identifier
+factor->^( exp ^) | ^numberval | id
+id->^identifier
