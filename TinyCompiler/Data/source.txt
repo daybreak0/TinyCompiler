@@ -1,4 +1,9 @@
-a:=1;
-if(a>0)
-  then b:=0;
-end
+read x;
+if 0<x then
+  fact:=((2048+1024)/1024-2)*2-1;
+  repeat
+    fact:=fact*x;
+    x:=x-1;
+  until x=0;
+  write fact;
+end;
