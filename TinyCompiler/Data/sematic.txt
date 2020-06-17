@@ -32,7 +32,7 @@ ifstmt->if exp then stmtsequence else stmtsequence end
 ifstmt.node = Node IF exp.node stmtsequence.node stmtsequence.node 
 
 repeatstmt->repeat stmtsequence until exp
-repeatstmt.node = Node REPEAT_DO exp.node stmtsequence.node 
+repeatstmt.node = Node REPEAT_DO stmtsequence.node exp.node
 
 assignstmt->id := exp
 assignstmt.node = Node ASSIGN id.node exp.node
