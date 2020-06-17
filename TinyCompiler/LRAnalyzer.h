@@ -14,31 +14,7 @@ namespace {
 	}
 }
 namespace hscp {
-	// abstract syntax tree node
-	struct ASTNode
-	{
-		Token token;
-		std::vector<ASTNode*> children;
-
-		~ASTNode()
-		{
-			for (auto& c : children) {
-				delete c;
-				c = nullptr;
-			}
-		}
-	};
-	// abstract syntax tree
-	struct AST
-	{
-		ASTNode* root;
-
-		~AST()
-		{
-			delete root;
-			root = nullptr;
-		}
-	};
+	
 	// abstract syntax tree node
 	struct AnalyzeTreeNode
 	{
@@ -48,6 +24,7 @@ namespace hscp {
 
 		void Destroy() {
 			for (auto& c : children) {
+				c->Destroy();
 				delete c;
 				c = nullptr;
 			}
@@ -63,6 +40,7 @@ namespace hscp {
 		AnalyzeTreeNode* root;
 
 		void Destroy() {
+			root->Destroy();
 			delete root;
 			root = nullptr;
 		}

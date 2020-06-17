@@ -1,17 +1,35 @@
-S->*
-S.node = Equal *.node
+S->stmtsequence
+S.node = Equal stmtsequence.node
 
-stmtsqquence->stmtsequence' statement
-stmtsequence.node = Append stmtsequence'.node statement.node
+stmtsequence->stmtsequence statement ;
+stmtsequence.node = Append stmtsequence.node statement.node
 
 stmtsequence->statement ;
 stmtsequence.node = Equal statement.node
 
+statement->ifstmt
+statement.node = Equal ifstmt.node
+
+statement->repeatstmt
+statement.node = Equal repeatstmt.node
+
+statement->assignstmt
+statement.node = Equal assignstmt.node
+
+statement->readstmt
+statement.node = Equal readstmt.node
+
+statement->writestmt
+statement.node = Equal writestmt.node
+
+statement->returnstmt
+statement.node = Equal returnstmt.node
+
 ifstmt->if exp then stmtsequence end
 ifstmt.node = Node IF exp.node stmtsequence.node 
 
-ifstmt->if exp then stmtsequence else stmtsequence' end
-ifstmt.node = Node IF exp.node stmtsequence.node stmtsequence'.node 
+ifstmt->if exp then stmtsequence else stmtsequence end
+ifstmt.node = Node IF exp.node stmtsequence.node stmtsequence.node 
 
 repeatstmt->repeat stmtsequence until exp
 repeatstmt.node = Node REPEAT_DO exp.node stmtsequence.node 
@@ -22,38 +40,50 @@ assignstmt.node = Node ASSIGN id.node exp.node
 readstmt->read id
 readstmt.node = Node READ id.node
 
-writestmt->write id
-writestmt.node = Node READ id.node
+writestmt->write exp
+writestmt.node = Node WRITE exp.node
 
-returnstmt->return factor ;
+returnstmt->return factor
 returnstmt.node = Node RETURN factor.node
 
 exp->simpleexp
 exp.node = Equal simpleexp.node
 
-exp->simpleexp comparisonop simpleexp'
-exp.node = Node comparisonop.node.op simpleexp.node simpleexp'.node
+exp->simpleexp comparisonop simpleexp
+exp.node = Node comparisonop.node.op simpleexp.node simpleexp.node
 
-comparisonop->*
-comparisonop.node = Operator *
+comparisonop-> <
+comparisonop.node = Operator <
 
-simpleexp->simpleexp' addop term
-simpleexp.node = Node addop.node.op simpleexp'.node term.node
+comparisonop-> >
+comparisonop.node = Operator >
+
+comparisonop-> =
+comparisonop.node = Operator =
+
+simpleexp->simpleexp addop term
+simpleexp.node = Node addop.node.op simpleexp.node term.node
 
 simpleexp->term
 simpleexp.node = Equal term.node
 
-addop->*
-addop.node = Operator *
+addop-> +
+addop.node = Operator +
 
-term->term' mulop factor
-term.node = Node mulop.node.op term'.node factor.node
+addop-> -
+addop.node = Operator -
+
+term->term mulop factor
+term.node = Node mulop.node.op term.node factor.node
 
 term->factor
 term.node = Equal factor.node
 
-mulop->*
+mulop-> *
 mulop.node = Operator *
+
+mulop-> /
+mulop.node = Operator /
 
 factor->( exp )
 factor.node = Equal exp.node

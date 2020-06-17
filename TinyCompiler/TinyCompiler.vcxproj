@@ -32,6 +32,7 @@
     <ClInclude Include="LRAnalyzer.h" />
     <ClInclude Include="LRAutos.h" />
     <ClInclude Include="RegExpParser.h" />
+    <ClInclude Include="SematicProcesser.h" />
     <ClInclude Include="Vlpp.h" />
     <ClInclude Include="SematicLoader.h" />
   </ItemGroup>

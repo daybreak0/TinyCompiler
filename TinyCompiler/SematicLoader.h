@@ -63,7 +63,7 @@ namespace hscp {
 			load();
 		}
 
-		std::map<production, behavior>& GetSematic() {
+		const std::map<production, behavior>& GetSematic() const {
 			return sematic;
 		}
 	};

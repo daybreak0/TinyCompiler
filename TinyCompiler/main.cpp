@@ -5,6 +5,8 @@
 #include"LRAnalyzer.h"
 #include "DFA.h"
 #include "LexMatcher.h"
+#include "SematicLoader.h"
+#include "SematicProcesser.h"
 using namespace std;
 // get an automaton
 hscp::Automaton getAutos() {
@@ -53,5 +55,8 @@ int main(int argc, char** argv) {
 	ana.PrintErrors();
 
 	auto& atree = ana.GetAnalyzeTree();
+
+	hscp::SematicLoader sematic;
+	auto ast = hscp::SematicProcesser::AnalyzeToAST(sematic, atree);
 	return 0;
 }
