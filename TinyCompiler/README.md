@@ -4,7 +4,7 @@
 ## `DFA.h`
 转换DFA、DFA最小化
 
-## `GrammarLoader.h`
+## `GrammarFileLoader.h`
 读取语法规则
 
 ## `LexFileLoader.h`
