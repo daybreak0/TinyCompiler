@@ -35,9 +35,9 @@ hscp::Automaton getAutos() {
 }
 int main(int argc, char** argv) {
 	string file = "Data\\source.txt";
-	//if (argc == 2)
-	//	file = argv[1]; // source file from parameter
-	//else return 0;
+	if (argc == 2)
+		file = argv[1]; // source file from parameter
+	else return 0;
 	auto at = getAutos();
 	hscp::Matcher mc(at);
 	auto tokens = mc.ReadFile(file);
@@ -58,5 +58,7 @@ int main(int argc, char** argv) {
 
 	hscp::SematicLoader sematic;
 	auto ast = hscp::SematicProcesser::AnalyzeToAST(sematic, atree);
+
+	hscp::PrintAST(ast);
 	return 0;
 }

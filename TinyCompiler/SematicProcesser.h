@@ -4,6 +4,7 @@
 #include "LRAnalyzer.h"
 #include "SematicLoader.h"
 #include <functional>
+#include<iomanip>
 
 namespace hscp {
 	// abstract syntax tree node
@@ -37,6 +38,19 @@ namespace hscp {
 		{
 		}
 	};
+	namespace {
+		void traverse(ASTNode* node, int level) {
+			std::cout << std::setw(level * 4) << node->op <<", val: "<<node->val << std::endl;
+
+			for (const auto& n : node->children) {
+				traverse(n, level + 1);
+			}
+		}
+	}
+	void PrintAST(AST ast) {
+		traverse(ast.root, 1);
+	}
+
 	// behavior
 	std::map<std::string, std::function<ASTNode* (std::vector<std::string>, std::vector<ASTNode*>)>> actions = {
 		{"Equal", 
