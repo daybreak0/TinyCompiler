@@ -1,17 +1,15 @@
 S->stmtsequence
-stmtsequence->stmtsequence statement | statement ^;
+stmtsequence->stmtsequence statement ^; | statement ^;
 statement->ifstmt | repeatstmt | assignstmt | readstmt | writestmt | returnstmt
 ifstmt->^if exp ^then stmtsequence ^end | ^if exp ^then stmtsequence ^else stmtsequence ^end
 repeatstmt->^repeat stmtsequence ^until exp
 assignstmt->^identifier ^:= exp
 readstmt->^read ^identifier
 writestmt->^write exp
-returnstmt->^return factor ^;
+returnstmt->^return factor
 exp->simpleexp | simpleexp comparisonop simpleexp
-exp->simpleexp comparisonop simpleexp
 comparisonop->^< | ^> | ^=
-simpleexp->simpleexp addop term
-simpleexp->term
+simpleexp->simpleexp addop term | term
 addop->^+ | ^-
 term->term mulop factor | factor
 mulop->^* | ^/

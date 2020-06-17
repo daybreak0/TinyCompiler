@@ -25,8 +25,8 @@ charval '.'
 ^alph [_a-zA-Z]
 stringval ".*"
 ^digit [0-9]
-^intval (\+|\-)?`digit`+
-^floatval (\+|\-)?`digit`*\.`digit`+
+^intval `digit`+
+^floatval `digit`*\.`digit`+
 ^doubleval `floatval`lf
 numberval `intval`|`floatval`|`doubleval`
 identifier `alph`(`alph`|`digit`)*
