@@ -55,9 +55,9 @@ int main(int argc, char** argv) {
 	ana.PrintErrors();
 
 	auto& atree = ana.GetAnalyzeTree();
-
+	std::set<std::string> symbol_table;
 	hscp::SematicLoader sematic;
-	auto ast = hscp::SematicProcesser::AnalyzeToAST(sematic, atree);
+	auto ast = hscp::SematicProcesser::AnalyzeToAST(sematic, atree, symbol_table);
 	atree.Destroy();
 	hscp::PrintAST(ast);
 	return 0;

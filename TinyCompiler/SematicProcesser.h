@@ -46,58 +46,67 @@ namespace hscp {
 				traverse(n, level + 1);
 			}
 		}
+
+		
 	}
 	void PrintAST(AST ast) {
 		traverse(ast.root, 1);
 	}
-
-	// behavior
-	std::map<std::string, std::function<ASTNode* (std::vector<std::string>, std::vector<ASTNode*>)>> actions = {
-		{"Equal", 
-		[](std::vector<std::string> params, std::vector<ASTNode*> childrenNodes) {
-			return childrenNodes[0]; 
-		}},
-		{"Append",
-		[](std::vector<std::string> params, std::vector<ASTNode*> childrenNodes) {
-			if (childrenNodes[0]->op == "sequence") {
-				childrenNodes[0]->children.push_back(childrenNodes[1]);
-				return childrenNodes[0];
-			}
-			else {
-				auto t = new ASTNode{{}, "sequence", "", childrenNodes};
-				return t;
-			}
-		}},
-		{"Node",
-		[](std::vector<std::string> params, std::vector<ASTNode*> childrenNodes) {
-			ASTNode* t;
-			if(params[0][0]>=65 && params[0][0]<=90)
-				t = new ASTNode{{},params[0],"",childrenNodes};
-			else
-			{
-				auto op_it = std::find_if(childrenNodes.begin(), childrenNodes.end(), [](auto e) {return e->val == "op"; });
-				auto op = (*op_it)->op;
-				childrenNodes.erase(op_it);
-				t = new ASTNode{ {}, op, "", childrenNodes};
-			}
-			return t;
-		}},
-		{"Operator",
-		[](std::vector<std::string> params, std::vector<ASTNode*> childrenNodes) {
-			auto t = new ASTNode{{}, params[0],"op",{}};
-			return t;
-		}},
-		{"Leaf",
-		[](std::vector<std::string> params, std::vector<ASTNode*> childrenNodes) {
-			auto t = new ASTNode{{}, params[0], params[1], childrenNodes};
-			return t;
-		}}
-	};
+	
+	
 	class SematicProcesser {
 	private:
 		AnalyzeTree& atree;
 		const SematicLoader& loader;
 		AST ast;
+
+		std::set<std::string> symbol_table;
+
+		// behavior
+		std::map<std::string, std::function<ASTNode* (std::vector<std::string>, std::vector<ASTNode*>)>> actions = {
+			{"Equal",
+			[](std::vector<std::string> params, std::vector<ASTNode*> childrenNodes) {
+				return childrenNodes[0];
+			}},
+			{"Append",
+			[](std::vector<std::string> params, std::vector<ASTNode*> childrenNodes) {
+				if (childrenNodes[0]->op == "sequence") {
+					childrenNodes[0]->children.push_back(childrenNodes[1]);
+					return childrenNodes[0];
+				}
+				else {
+					auto t = new ASTNode{{}, "sequence", "", childrenNodes};
+					return t;
+				}
+			}},
+			{"Node",
+			[](std::vector<std::string> params, std::vector<ASTNode*> childrenNodes) {
+				ASTNode* t;
+				if (params[0][0] >= 65 && params[0][0] <= 90)
+					t = new ASTNode{{},params[0],"",childrenNodes};
+				else
+				{
+					auto op_it = std::find_if(childrenNodes.begin(), childrenNodes.end(), [](auto e) {return e->val == "op"; });
+					auto op = (*op_it)->op;
+					childrenNodes.erase(op_it);
+					t = new ASTNode{ {}, op, "", childrenNodes};
+				}
+				return t;
+			}},
+			{"Operator",
+			[](std::vector<std::string> params, std::vector<ASTNode*> childrenNodes) {
+				auto t = new ASTNode{{}, params[0],"op",{}};
+				return t;
+			}},
+			{"Leaf",
+			[&](std::vector<std::string> params, std::vector<ASTNode*> childrenNodes) {
+				auto t = new ASTNode{{}, params[0], params[1], childrenNodes};
+				if (params[0] == "ID")
+					symbol_table.insert(params[1]);
+				return t;
+			}}
+		};
+
 		SematicProcesser(SematicLoader& loader, AnalyzeTree& tree):  loader(loader), atree(tree), ast(){}
 
 		std::list<std::string> getChildrenProduction(AnalyzeTreeNode* node) {
@@ -131,10 +140,10 @@ namespace hscp {
 			return actions[s_it->second.first](para, castn);
 		}
 	public:
-		static AST AnalyzeToAST(SematicLoader& loader, AnalyzeTree& tree) {
+		static AST AnalyzeToAST(SematicLoader& loader, AnalyzeTree& tree, std::set<std::string>& sym_table) {
 			SematicProcesser processer(loader, tree);
 			processer.traverse();
-
+			sym_table = processer.symbol_table;
 			return processer.ast;
 		}
 	};
